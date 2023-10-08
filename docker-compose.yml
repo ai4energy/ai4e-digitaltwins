@@ -1,0 +1,68 @@
+version: '3.2'
+
+services:
+
+  ai4e-digitaltwins-postgres:
+    image: postgres:15.4
+    container_name: ai4e-digitaltwins-postgres
+    environment:
+      POSTGRES_PASSWORD: dlgcdxlgjzdsys123456
+      POSTGRES_DB: ai4e-digitaltwins-postgres
+      POSTGRES_USER: ai4e_digitaltwins
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      ai4e_net:
+        ipv4_address: 172.20.0.115
+  # ai4e-digitaltwins-mariadb:
+  #   image: mariadb:10.6.14
+  #   container_name: ai4e-digitaltwins-mariadb
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: dlgcdxlgjzdsys
+  #     MYSQL_DATABASE: ai4e_digitaltwins
+  #     MYSQL_USER: ai4e_digitaltwins
+  #     MYSQL_PASSWORD: dlgcdxlgjzdsys123456
+  #     TZ: Asia/Shanghai
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #      - ./data/mariadb:/var/lib/mysql
+  #   restart: always
+  #   networks:
+  #     ai4e_net:
+  #       ipv4_address: 172.20.0.116
+
+  # ai4e-digitaltwins-emqx:
+  #   image: emqx/emqx:5.1.4
+  #   container_name: ai4e-digitaltwins-emqx
+  #   restart: always
+  #   ports:
+  #     - "1883:1883"
+  #     - "8883:8883"
+  #     - "8083:8083"
+  #     - "8084:8084"
+  #     - "18083:18083"
+  #   volumes:
+  #     - ./deploy/emqx/emqx_data:/opt/emqx/data
+  #     - ./deploy/emqx/emqx_log:/opt/emqx/log
+  #     - ./deploy/emqx/emqx_etc:/opt/emqx/etc
+  #   networks:
+  #     ai4e_net:
+  #       ipv4_address: 172.20.0.117
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      ai4e_net:
+        ipv4_address: 172.20.0.118
+
+networks:
+  ai4e_net:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

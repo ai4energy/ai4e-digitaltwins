@@ -1,23 +1,19 @@
 -- Adminer 4.8.1 PostgreSQL 15.4 (Debian 15.4-1.pgdg120+1) dump
 
-\connect "ai4e-things-postgres";
-
 DROP TABLE IF EXISTS "units";
 DROP SEQUENCE IF EXISTS units_id_seq;
 CREATE SEQUENCE units_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
 
-CREATE TABLE "public"."units" (
-    "id" integer DEFAULT nextval('units_id_seq') NOT NULL,
-    "symbol" character varying(50) NOT NULL,
-    "abbreviation" character varying(50),
-    "name" character varying(100),
-    "equivalent" character varying(100),
-    "uses_scientific_notation" boolean,
-    "doc" text,
-    "doc_zh" text,
-    CONSTRAINT "units_pkey" PRIMARY KEY ("id"),
-    CONSTRAINT "units_symbol_key" UNIQUE ("symbol")
-) WITH (oids = false);
+CREATE TABLE units (
+    id SERIAL PRIMARY KEY,
+    symbol VARCHAR(50) UNIQUE NOT NULL,  -- 单位的符号
+    abbreviation VARCHAR(50),  -- 单位的简写
+    name VARCHAR(100),  -- 单位的全名
+    equivalent VARCHAR(100),  -- 单位的等效表达式或转换因子
+    uses_scientific_notation BOOLEAN,  -- 是否采用科学计数法
+    doc TEXT,  -- 英文文档或描述
+    doc_zh TEXT  -- 简体中文文档或描述
+);
 
 TRUNCATE "units";
 INSERT INTO "units" ("id", "symbol", "abbreviation", "name", "equivalent", "uses_scientific_notation", "doc", "doc_zh") VALUES
